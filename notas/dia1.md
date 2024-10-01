@@ -603,6 +603,19 @@ Qué sabéis de fabricación de bicicletas? NPI = GENIAL !!!
     - "si van bien": Y si van mal? que ha fallao? NPI... ponte a averiguarlo
     - Cuándo puedo hacer estas pruebas? Cuando tengo el sistema acabado... y mientras tanto? voy a ciegas? a ver si llego?
 
+Al definir una prueba siempre establecemos 3 cosas:
+- CONTEXTO                      Dado                        Given
+- ACCION A EJECUTAR             Cuando                      When
+- RESULTADO ESPERADO            Entonces                    Then
+
+Las pruebas también tienen sus principios: FIRST
+
+F - Fast
+I - Independent
+R - Repeatable
+S - Self-validating
+T - Timely
+
 ## Esto mismo ahora aplica al software
 
 Nuestro software va a tener muchos componentes... Con DEPENDENCIAS UNOS DE OTROS.
@@ -657,7 +670,3 @@ Nos gusta mucho el cacharreo a los desarrolladores... ESCRIBIR CODIGO!!!
 Automatizar las pruebas implica, dejar de hacer pruebas. Pasamos a escribir más código: Programas para probar nuestro programa.
 
 ---
-
--->
-Las formas en las que puedo decir a Spring lo que quiero que utilice cuando alguien necesite un objeto de un tipo concreto
-Las formas en las que puedo pedirle a Spring que me de un objeto de un tipo concreto
