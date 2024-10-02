@@ -21,4 +21,7 @@ public class Significado {
     @Column( nullable=false, length = 500 )
     @NotEmpty( message = "El significado no puede estar vacío")
     private String significado;
+
+    @ManyToOne
+    private Palabra palabra;
 }

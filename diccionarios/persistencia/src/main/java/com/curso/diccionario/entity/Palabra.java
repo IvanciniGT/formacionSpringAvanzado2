@@ -26,6 +26,6 @@ public class Palabra {
     @ManyToOne
     private Idioma idioma;
 
-    @OneToMany
+    @OneToMany(mappedBy = "palabra")
     private List<Significado> significados;
 }

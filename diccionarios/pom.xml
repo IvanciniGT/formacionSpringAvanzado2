@@ -12,6 +12,7 @@
 
     <modules>
         <module>persistencia</module>
+        <module>buscador-api</module>
     </modules>
 
     <properties>
