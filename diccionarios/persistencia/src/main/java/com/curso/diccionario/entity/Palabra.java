@@ -6,6 +6,7 @@ import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty; // Gracias a la dependencia de validations
+import java.util.List;
 
 @Entity
 @Table( name="palabras" )
@@ -22,6 +23,9 @@ public class Palabra {
     @NotEmpty( message = "La palabra no puede estar vacía")
     private String palabra;
 
-    // private Idioma idioma
-    // private List<Significado> significados
+    @ManyToOne
+    private Idioma idioma;
+
+    @OneToMany
+    private List<Significado> significados;
 }
