@@ -30,7 +30,7 @@ public class BuscadorDePalabrasImpl implements BuscadorDePalabras {
     public Optional<List<String>> buscarPalabra(@NonNull String idioma, @NonNull String palabra){
         Optional<Idioma> potencialIdioma = repositorioIdiomas.findByNombre(normalizarIdioma(idioma));
         if(potencialIdioma.isPresent()){
-            Optional<Palabra> potencialPalabra = repositorioPalabras.findByPalabraAndIdioma(palabra, potencialIdioma.get());
+            Optional<Palabra> potencialPalabra = repositorioPalabras.findByPalabraAndIdioma(normalizarPalabra(palabra), potencialIdioma.get());
             if(potencialPalabra.isPresent()){
                 /*
                 List<Significado> significados = potencialPalabra.get().getSignificados();
@@ -53,5 +53,8 @@ public class BuscadorDePalabrasImpl implements BuscadorDePalabras {
 
     private static String normalizarIdioma(String idioma){
         return idioma.toUpperCase();
+    }
+    private static String normalizarPalabra(String idioma){
+        return idioma.toLowerCase();
     }
 }
