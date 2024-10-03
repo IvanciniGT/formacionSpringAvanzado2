@@ -13,6 +13,7 @@
     <modules>
         <module>persistencia</module>
         <module>buscador-api</module>
+        <module>buscador-impl</module>
     </modules>
 
     <properties>
@@ -44,19 +45,19 @@
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
-            <version>2.3.232</version>
+            <!--version>2.3.232</version-->
             <scope>test</scope>
         </dependency>
 
-        <!--
-        A nivel de este proyecto vamos a poner cosas que usaremos en todos los demás.
-        El control de versiones puede ser un problema.
-        Vamos a echar mano de un BOM: Bill-of-materials
-        -->
     </dependencies>
 
     <dependencyManagement>
         <dependencies>
+            <!--
+            A nivel de este proyecto vamos a poner cosas que usaremos en todos los demás.
+            El control de versiones puede ser un problema.
+            Vamos a echar mano de un BOM: Bill-of-materials
+            -->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>

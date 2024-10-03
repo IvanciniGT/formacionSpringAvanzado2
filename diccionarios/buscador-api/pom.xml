@@ -15,12 +15,4 @@
     <properties>
     </properties>
 
-    <dependencies>
-        <dependency>
-            <groupId>com.curso</groupId>
-            <artifactId>persistencia</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-    </dependencies>
-
 </project>
