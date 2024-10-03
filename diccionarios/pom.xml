@@ -14,6 +14,7 @@
         <module>persistencia</module>
         <module>buscador-api</module>
         <module>buscador-impl</module>
+        <module>controlador-rest-v1</module>
     </modules>
 
     <properties>

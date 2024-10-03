@@ -115,10 +115,19 @@ Ciencias de la computación es una ciencia EXACTA: Como las matemáticas, físic
 Ingeniería busca soluciones adecuadas a problemas, con limitaciones de recursos y tiempo.
 
 Un componente debe estar cerrado para su modificación pero abierto para su extensión.
+                                                                                                                Carga SQL
+|-----FRONTAL------------|  v1.2.0                              v2.0.0                  v2.0.0                      v
+Web-Angular  v2             CONTROLADOR_REST V1                 SERVICIO                REPOSITORIO                 BBDD
+FORMULARIO -> SERVICIO      Lógica es exponer un servicio       Lógica de negocio       Lógica de persistencia      Lógica del dato
+Lógica de     Lógica de comunicación                                                                                PL/SQL
+captura de    con el backend
+datos
+** VALIDACION                                                   ** VALIDACION                                       LA UNICA
+Por cortesia                                                    Por cortesia                                        QUE ES OBLIGATORIA
 
-                            v1.2.0                              v2.0.0                  v2.0.0
-FRONTAL                     CONTROLADOR_REST V1                 SERVICIO                REPOSITORIO             
-Web-Angular  v2             Lógica es exponer un servicio       Lógica de negocio       Lógica de persistencia
+Guardo personas. Quiero guardar una persona con su DNI.
+Me dicen que SOLO HAY UN ÚNICO SITIO DONDE PUEDO PONER LA VALIDACIÓN DEL DNI (que tiene un patrón correcto: 8 números y una letra y que la letra es la correcta)
+
 Android v1                                                                                                             
 iOs v1
                             DTO                                 DTO                     Entidades
@@ -179,3 +188,29 @@ public class MapeadorControlador{
         return new AnimalitoRestDTOV1(dto.getNombre(), dto.getEdad());
     }
 }
+
+
+
+---
+
+Habitualmente trabajamos con protocolo HTTP(s)
+Eso está guay.. siempre y cuando me interesen las funcionalidades que me ofrece HTTP
+
+HTTP Sirve para comunicaciones SINCRONAS UNIDIRECCIONALES
+
+    cliente -> Request -> Servidor -> Response -> Cliente
+
+Y si quiero comunicaciones asincronas? o bidireccionales?
+
+A lo mejor me interesa que el servidor se pueda poner en contacto con el cliente
+
+    cliente ---mensaje---> Servidor
+            <---mensaje---
+
+    chat
+    notificaciones
+
+    WebSockets: Protocolo que opera sobre TCP/IP bidireccional y full-duplex y asincrono
+
+        http://
+        ws://
