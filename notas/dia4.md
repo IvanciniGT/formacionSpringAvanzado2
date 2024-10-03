@@ -214,3 +214,101 @@ A lo mejor me interesa que el servidor se pueda poner en contacto con el cliente
 
         http://
         ws://
+
+---
+
+```java
+@RequestMapping(value = "/buscarPalabra", method = RequestMethod.GET)
+public ResponseEntity<List<String>> buscarPalabraQuery(@RequestParam(required = true) String idioma,
+                                                        @RequestParam(required = true) String palabra){
+    return buscarPalabras(idioma, palabra);
+}
+```
+
+# Queremos pruebas unitarias? SIEMPRE !!!
+        |                   |
+        v                   v
+    [Serv.Apps (http) -> CONTROLADOR -> Servicio -> Repositorio -> BBDD]
+
+## Qué otros casos tengo que probar.. A TODOS LOS NIVELES
+
+no pasan palabra
+no pasan idioma
+
+idioma no encontrado
+palabra no encontrada
+
+con los case de los idiomas y las palabras
+
+30 pruebas! UFF son muchas!!!! Son las necesarias!
+
+Ahora... lo puedo comparar con las veces que manualmente probaría esto.. a lo largo del ciclo de vida del proyecto... RIDUCULAS 30 pruebas.
+Incluso comparandolas con las veces que voy a probar durante el desarrollo v1 ... RIDICULAS 30 pruebas
+
+## Happy path
+
+Dado
+    que tengo un controlador de estos
+    que tengo un servicio de BuscadorPalabras de carton-piedra (mock)
+    que que ese servicio, cuando le pregunte por los significados de la palabra manzana en idioma español, devolverá: [Fruto del manzano]
+Cuando
+    me llaman a la función buscarPalabraQuery con idioma "es" y palabra "perro"
+Entonces
+    me devuelve un responseEntity con el código 200 y el cuerpo [Fruto del manzano]
+
+# Queremos pruebas de Integración? SI, ya que tiene relación con otros componentes
+## Con el buscador
+Dado
+    que tengo un controlador de estos
+    que tengo un servicio de BuscadorPalabras de verdad de la buena
+    que tengo un repositorio de cartón piedra
+    y que ese repositorio, cuando le pregunte por los significados de la palabra manzana en idioma español, devolverá: [Fruto del manzano]
+Cuando
+    me llaman a la función buscarPalabraQuery con idioma "es" y palabra "perro"
+Entonces
+    me devuelve un responseEntity con el código 200 y el cuerpo [Fruto del manzano]
+
+## Con el servidor de apps
+Dado
+    que tengo un controlador de estos
+    y un servidor de apps
+    que tengo un servicio de BuscadorPalabras de carton-piedra (mock)
+    que que ese servicio, cuando le pregunte por los significados de la palabra manzana en idioma español, devolverá: [Fruto del manzano]
+Cuando
+    me llaman al endpoint /buscarPalabra con idioma "es" y palabra "perro"
+Entonces
+    me devuelve un HTTP Request con el código 200 y en el cuerpo del request un JSON con [Fruto del manzano]
+
+
+# Queremos pruebas de SISTEMA? SI!, este es mi sistema (El microservicio!)
+
+    [Serv.Apps (http) -> CONTROLADOR -> Servicio -> Repositorio -> BBDD]
+
+Dado
+    que tengo un controlador de estos
+    y un servidor de apps
+    que tengo un servicio de BuscadorPalabras guay
+    y que tengo un repositorio guay
+    y una bbdd guay
+    y en la bbdd está la palabra manzana en idioma español, con significados Fruto del manzano
+Cuando
+    me llaman al endpoint /buscarPalabra con idioma "es" y palabra "perro"
+Entonces
+    me devuelve un HTTP Request con el código 200 y en el cuerpo del request un JSON con [Fruto del manzano]
+
+# ^ OPCION 1: FUNDAMENTALISTA PURITANO TECNOLOGICO
+# v OPCION 2: UN POCO MAS PRACTICA
+
+
+    [Serv.Apps (http) -> CONTROLADOR -> Servicio -> Repositorio] -> BBDD
+
+Dado
+    que tengo un controlador de estos
+    y un servidor de apps
+    que tengo un servicio de BuscadorPalabras guay
+    y que tengo un repositorio guay
+    y el repositorio tiene cargado la palabra manzana en idioma español, con significados Fruto del manzano
+Cuando
+    me llaman al endpoint /buscarPalabra con idioma "es" y palabra "perro"
+Entonces
+    me devuelve un HTTP Request con el código 200 y en el cuerpo del request un JSON con [Fruto del manzano]
