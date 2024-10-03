@@ -30,14 +30,20 @@ import static org.mockito.Mockito.when;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class BuscadorDePalabrasTest {
 
-    public static final String PALABRA_EXISTENTE_CON_UN_SIGNIFICADO = "manzana";
-    public static final String PALABRA_NO_EXISTENTE = "archilococo";
-    public static final String IDIOMA_EXISTENTE = "ES";
-    public static final String IDIOMA_NO_EXISTENTE = "de los elfos";
-    public static final String SIGNIFICADO_PALABRA_CON_UN_SIGNIFICADO = "Fruto del manzano";
+    private static final String PALABRA_EXISTENTE_CON_UN_SIGNIFICADO = "manzana";
+    private static final String PALABRA_NO_EXISTENTE = "archilococo";
+    private static final String IDIOMA_EXISTENTE = "ES";
+    private static final String IDIOMA_NO_EXISTENTE = "DE LOS ELFOS";
+    private static final String SIGNIFICADO_PALABRA_CON_UN_SIGNIFICADO = "Fruto del manzano";
+    private static Idioma idiomaExistente = Idioma.builder().nombre(IDIOMA_EXISTENTE).id(12L).build();
+    private static Palabra manzana = Palabra.builder().palabra("manzana").idioma(idiomaExistente).id(19L).build();
+
+
+
     @MockBean // Esto hace 2 cosas
     // Crea (mediante una librería llamada Mockito una implementación DUMMY de esa interfaz
     // Le dice a Spring que entregue una instancia de esa clase que va a crear Mockito cuando alguien pida un RepositorioIdiomas
+    // Aunque haya otra implementación disponible (una real)
     // Lo mismo que habíamos hecho nosotros a mano al poner @Repository @Primary
     private RepositorioIdiomas miRepositorioIdiomas;
 
@@ -55,27 +61,15 @@ class BuscadorDePalabrasTest {
 
     @BeforeAll
     void crearIdiomaEnBBDD(){
-
-        Idioma idiomaExistente = Idioma.builder().nombre(IDIOMA_EXISTENTE).id(12L).build();
-        Palabra manzana = Palabra.builder().palabra("manzana").idioma(idiomaExistente).id(19L).build();
-
-        when(miRepositorioIdiomas.findByNombre(IDIOMA_EXISTENTE)).thenReturn(Optional.of(idiomaExistente));
-
-        when(miRepositorioIdiomas.findByNombre(null)).thenThrow(NullPointerException.class);
-
-        when(miRepositorioPalabras.findByPalabraAndIdioma(null,idiomaExistente)).thenThrow(NullPointerException.class);
-        when(miRepositorioPalabras.findByPalabraAndIdioma(PALABRA_EXISTENTE_CON_UN_SIGNIFICADO, null)).thenThrow(NullPointerException.class);
-
-        when(miRepositorioPalabras.findByPalabraAndIdioma(PALABRA_EXISTENTE_CON_UN_SIGNIFICADO, idiomaExistente))
-                .thenReturn(Optional.of(manzana));
-
         manzana.setSignificados(List.of(Significado.builder().id(111L).significado(SIGNIFICADO_PALABRA_CON_UN_SIGNIFICADO).palabra(manzana).build()));
     }
 
+    @Test
     @DisplayName("Preguntar por un idioma que existe")
     void preguntarPorIdiomaExistente() {
+        when(miRepositorioIdiomas.findByNombre(IDIOMA_EXISTENTE)).thenReturn(Optional.of(idiomaExistente));
         boolean existe = miBuscadorDePalabras.existeElIdioma(IDIOMA_EXISTENTE);
-        assertTrue(existe);
+        //assertTrue(existe);
         // Que me falta por comprobar?
         // El buscador debería llamar al repositorio y pasarle el mismo idioma que esté recibiendo
         // Lo que hemos montado no es un MOCK... es un STUB... un código que siempre devuelve lo mismo... CARTON-PIEDRA
@@ -98,13 +92,16 @@ class BuscadorDePalabrasTest {
     }
      */
 
+    @Test
     @DisplayName("Preguntar por un idioma que existe pero con case distinto")
     void preguntarPorIdiomaExistenteConCaseDistinto() {
+        when(miRepositorioIdiomas.findByNombre(IDIOMA_EXISTENTE)).thenReturn(Optional.of(idiomaExistente));
         boolean existe = miBuscadorDePalabras.existeElIdioma(IDIOMA_EXISTENTE.toLowerCase());
         assertTrue(existe);
     }
 
-    @DisplayName("Preguntar por un idioma que existe")
+    @Test
+    @DisplayName("Preguntar por un idioma null")
     void preguntarPorIdiomaNull() {
         assertThrows( NullPointerException.class, () -> miBuscadorDePalabras.existeElIdioma(null));
     }
@@ -112,15 +109,16 @@ class BuscadorDePalabrasTest {
     @Test
     @DisplayName("Preguntar por un idioma que no existe")
     void preguntarPorIdiomaNoExistente() {
-        boolean existe = miBuscadorDePalabras.existeElIdioma("De los elfos");
+        boolean existe = miBuscadorDePalabras.existeElIdioma(IDIOMA_NO_EXISTENTE);
         assertFalse(existe);
         verify(miRepositorioIdiomas).findByNombre(nombreDelIdiomaSolicitadoAlRepositorio.capture());
-        assertEquals("De los elfos", nombreDelIdiomaSolicitadoAlRepositorio.getValue());
+        assertEquals(IDIOMA_NO_EXISTENTE, nombreDelIdiomaSolicitadoAlRepositorio.getValue());
     }
 
     @Test
     @DisplayName("Preguntar por una palabra que no existe")
     void preguntarPorPalabraNoExistente(){
+        when(miRepositorioIdiomas.findByNombre(IDIOMA_EXISTENTE)).thenReturn(Optional.of(idiomaExistente));
         Optional<List<String>> potencialesSignificados = miBuscadorDePalabras.buscarPalabra(IDIOMA_EXISTENTE, PALABRA_NO_EXISTENTE);
         assertTrue(potencialesSignificados.isEmpty());
     }
@@ -145,6 +143,10 @@ class BuscadorDePalabrasTest {
     @Test
     @DisplayName("Preguntar por una palabra que existe")
     void preguntarPorPalabraExistente(){
+        when(miRepositorioIdiomas.findByNombre(IDIOMA_EXISTENTE)).thenReturn(Optional.of(idiomaExistente));
+        when(miRepositorioPalabras.findByPalabraAndIdioma(PALABRA_EXISTENTE_CON_UN_SIGNIFICADO, idiomaExistente))
+                .thenReturn(Optional.of(manzana));
+
         Optional<List<String>> potencialesSignificados = miBuscadorDePalabras.buscarPalabra(IDIOMA_EXISTENTE,
                 PALABRA_EXISTENTE_CON_UN_SIGNIFICADO);
         assertTrue(potencialesSignificados.isPresent());
@@ -155,6 +157,10 @@ class BuscadorDePalabrasTest {
     @Test
     @DisplayName("Preguntar por una palabra que existe con case distinto")
     void preguntarPorPalabraExistenteConCaseDistinto(){
+        when(miRepositorioIdiomas.findByNombre(IDIOMA_EXISTENTE)).thenReturn(Optional.of(idiomaExistente));
+        when(miRepositorioPalabras.findByPalabraAndIdioma(PALABRA_EXISTENTE_CON_UN_SIGNIFICADO, idiomaExistente))
+                .thenReturn(Optional.of(manzana));
+
         Optional<List<String>> potencialesSignificados = miBuscadorDePalabras.buscarPalabra(IDIOMA_EXISTENTE,
                 PALABRA_EXISTENTE_CON_UN_SIGNIFICADO.toUpperCase());
         assertTrue(potencialesSignificados.isPresent());

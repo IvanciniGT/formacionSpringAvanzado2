@@ -59,7 +59,7 @@ class BuscadorDePalabrasIntegrationTest {
         miRepositorioSignificados.save(Significado.builder().significado("Persona con pocas luces").palabra(melon).build());
 
         Palabra manzana = Palabra.builder().palabra(PALABRA_EXISTENTE_CON_UN_SIGNIFICADO).idioma(idioma).build();
-        miRepositorioPalabras.save(melon);
+        miRepositorioPalabras.save(manzana);
         miRepositorioSignificados.save(Significado.builder().significado(SIGNIFICADO_PALABRA_CON_UN_SIGNIFICADO).palabra(manzana).build());
     }
 
