@@ -33,8 +33,8 @@ public class BuscadorDePalabrasRestControllerV1 {
     //@GetMapping("/buscarPalabra") // Me pasan como PARAMETROS DE LA URL: Idioma y Palabra
     @RequestMapping(value = "/buscarPalabra", method = RequestMethod.GET)
     //http://miservidor/api/v1/buscarPalabra?idioma=ES&palabra=manzana
-    public ResponseEntity<List<String>> buscarPalabraQuery(@RequestParam(required = true) String idioma,
-                                                           @RequestParam(required = true) String palabra){
+    public ResponseEntity<List<String>> buscarPalabraQuery(@RequestParam(required = false) String idioma,
+                                                           @RequestParam(required = false) String palabra){
         return buscarPalabras(idioma, palabra);
     }
     /*
@@ -46,6 +46,16 @@ public class BuscadorDePalabrasRestControllerV1 {
     @GetMapping("/buscarPalabra2")
     //https://miservidor/api/v1/buscarPalabra2 // Pero los datos van en un JSON
     public ResponseEntity<List<String>> buscarPalabraBody(@RequestBody BusquedaPalabra datosDeLaBusqueda){
+        return buscarPalabras(datosDeLaBusqueda.getIdioma(), datosDeLaBusqueda.getPalabra());
+    }
+
+    @PostMapping("/buscarPalabra2")
+    //https://miservidor/api/v1/buscarPalabra2 // Pero los datos van en un JSON
+    public ResponseEntity<List<String>> buscarPalabra3Body(@RequestBody BusquedaPalabra datosDeLaBusqueda){
+        // Lo suyo es que antes de solicitar al servicio hiciera yo aqui una validación de los datos.
+        // Podría quitarla pues del Servicio? NI DE COÑA.. Allí tiene que estar. Aquí puedo hacer una de cortesía.
+        // Esto sería lo suyo.. Pero yo lo voy a hacer de otra forma (que no es como YO LO HARIA EN LA REALIDAD)
+        // Pero que para otros casos SI NOS INTERESA y lo que quiero es enseñaros la funcionalidad.
         return buscarPalabras(datosDeLaBusqueda.getIdioma(), datosDeLaBusqueda.getPalabra());
     }
 

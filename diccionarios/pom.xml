@@ -15,6 +15,8 @@
         <module>buscador-api</module>
         <module>buscador-impl</module>
         <module>controlador-rest-v1</module>
+        <module>microservicio</module>
+        <module>cargador-diccionarios</module>
     </modules>
 
     <properties>

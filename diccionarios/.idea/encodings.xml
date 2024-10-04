@@ -5,8 +5,12 @@
     <file url="file://$PROJECT_DIR$/buscador-api/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/buscador-impl/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/buscador-impl/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/cargador-diccionarios/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/cargador-diccionarios/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/controlador-rest-v1/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/controlador-rest-v1/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/microservicio/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/microservicio/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/persistencia/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/persistencia/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java" charset="UTF-8" />
