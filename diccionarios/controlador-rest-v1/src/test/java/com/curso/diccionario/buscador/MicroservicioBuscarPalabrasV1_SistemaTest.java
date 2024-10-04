@@ -19,9 +19,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
@@ -74,6 +74,7 @@ class MicroservicioBuscarPalabrasV1_SistemaTest {
 
     @Test
     @DisplayName("Buscar palabra existente en un idioma existente")
+    @WithMockUser(username = "federico", roles = {"ADMIN"})
     void test1() throws Exception {
 
         // Dado
@@ -105,6 +106,7 @@ class MicroservicioBuscarPalabrasV1_SistemaTest {
 
     @Test
     @DisplayName("Buscar palabra no existente en un idioma existente")
+    @WithMockUser(username = "federico", roles = {"ADMIN"})
     void test2() throws Exception {
 
         JSONObject cuerpoPeticion = new JSONObject();
@@ -122,6 +124,7 @@ class MicroservicioBuscarPalabrasV1_SistemaTest {
 
     @Test
     @DisplayName("Buscar palabra existente en un idioma no existente")
+    @WithMockUser(username = "federico", roles = {"ADMIN"})
     void test3() throws Exception {
         JSONObject cuerpoPeticion = new JSONObject();
         cuerpoPeticion.put("idioma",IDIOMA_NO_EXISTENTE);

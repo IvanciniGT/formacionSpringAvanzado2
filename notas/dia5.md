@@ -144,3 +144,9 @@ LETRA DEL DNI:
       1   100000
       ^
       0-22 Y hay una letra asociada a cada número.
+
+
+      ---
+
+JWT:
+eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTcyODA4MTc3NCwiaWF0IjoxNzI4MDQ1Nzc0fQ.7rso9k3FhxUCS-Nx3ctE_8fjD_PbYvZ-USU8waw2uTw

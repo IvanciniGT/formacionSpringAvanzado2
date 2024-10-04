@@ -1,11 +1,16 @@
 package com.curso.diccionario.buscador;
 
 import com.curso.diccionario.buscador.dto.BusquedaPalabra;
-import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.security.RolesAllowed;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,12 +48,19 @@ public class BuscadorDePalabrasRestControllerV1 {
         "palabra": "manzana"
     }
     */
+
+    //@PreAuthorize("isAuthenticated()") // Aqui dentro de usa un lenguaje propio de Spring SPEL.
+    //@PreAuthorize("hasRole('ADMIN')") // Estas anotaciones Pre y Post hay que habilitarlas
+    //@PostAuthorize() // Y cuando se devuelvan los datos quiero que solo si el expediente que estoy devolviendo tiene un campo propietario igual al id del usuario que está haciendo la petición.
+    //@Secured("ADMIN")
+    @RolesAllowed("ADMIN") // JSR250 hay es donde se definen estas anotaciones.
     @GetMapping("/buscarPalabra2")
     //https://miservidor/api/v1/buscarPalabra2 // Pero los datos van en un JSON
     public ResponseEntity<List<String>> buscarPalabraBody(@RequestBody BusquedaPalabra datosDeLaBusqueda){
         return buscarPalabras(datosDeLaBusqueda.getIdioma(), datosDeLaBusqueda.getPalabra());
     }
 
+    @RolesAllowed("ADMIN") // JSR250 hay es donde se definen estas anotaciones.
     @PostMapping("/buscarPalabra2")
     //https://miservidor/api/v1/buscarPalabra2 // Pero los datos van en un JSON
     public ResponseEntity<List<String>> buscarPalabra3Body(@RequestBody BusquedaPalabra datosDeLaBusqueda){
