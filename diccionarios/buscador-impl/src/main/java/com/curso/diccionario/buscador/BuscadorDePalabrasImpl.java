@@ -8,6 +8,7 @@ import com.curso.diccionario.repository.RepositorioPalabras;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -27,6 +28,8 @@ public class BuscadorDePalabrasImpl implements BuscadorDePalabras {
     }
 
     @Override
+    //@Transactional Asegurar que se abre una conexión... y que queda abierta para esta función
+    // Otra alternativa para resolver el problema es Tan pronto como carguemos la palabra, traer los significados
     public Optional<List<String>> buscarPalabra(@NonNull String idioma, @NonNull String palabra){
         Optional<Idioma> potencialIdioma = repositorioIdiomas.findByNombre(normalizarIdioma(idioma));
         if(potencialIdioma.isPresent()){

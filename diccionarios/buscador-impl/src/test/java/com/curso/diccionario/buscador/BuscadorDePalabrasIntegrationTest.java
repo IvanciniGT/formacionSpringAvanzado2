@@ -62,19 +62,21 @@ class BuscadorDePalabrasIntegrationTest {
         manzana = miRepositorioPalabras.save(manzana);
         miRepositorioSignificados.save(Significado.builder().significado(SIGNIFICADO_PALABRA_CON_UN_SIGNIFICADO).palabra(manzana).build());
     }
-
+    @Test
     @DisplayName("Preguntar por un idioma que existe")
     void preguntarPorIdiomaExistente() {
         boolean existe = miBuscadorDePalabras.existeElIdioma(IDIOMA_EXISTENTE);
         assertTrue(existe);
     }
 
+    @Test
     @DisplayName("Preguntar por un idioma que existe pero con case distinto")
     void preguntarPorIdiomaExistenteConCaseDistinto() {
         boolean existe = miBuscadorDePalabras.existeElIdioma("es");
         assertTrue(existe);
     }
 
+    @Test
     @DisplayName("Preguntar por un idioma que existe")
     void preguntarPorIdiomaNull() {
         assertThrows( NullPointerException.class, () -> miBuscadorDePalabras.existeElIdioma(null));
@@ -110,7 +112,7 @@ class BuscadorDePalabrasIntegrationTest {
         Optional<List<String>> potencialesSignificados = miBuscadorDePalabras.buscarPalabra(IDIOMA_NO_EXISTENTE, PALABRA_NO_EXISTENTE);
         assertTrue(potencialesSignificados.isEmpty());
     }
-/*
+
     @Test
     @DisplayName("Preguntar por una palabra que existe")
     void preguntarPorPalabraExistente(){
@@ -120,6 +122,7 @@ class BuscadorDePalabrasIntegrationTest {
         assertEquals(1, potencialesSignificados.get().size());
         assertEquals(SIGNIFICADO_PALABRA_CON_UN_SIGNIFICADO, potencialesSignificados.get().get(0));
     }
+
     @Test
     @DisplayName("Preguntar por una palabra que existe con case distinto")
     void preguntarPorPalabraExistenteConCaseDistinto(){
@@ -129,5 +132,5 @@ class BuscadorDePalabrasIntegrationTest {
         assertEquals(1, potencialesSignificados.get().size());
         assertEquals(SIGNIFICADO_PALABRA_CON_UN_SIGNIFICADO, potencialesSignificados.get().get(0));
     }
-*/
+
 }

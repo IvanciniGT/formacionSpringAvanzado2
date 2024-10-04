@@ -36,7 +36,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class MicroservicioBuscarPalabrasV1_SistemaTest {
 
-    private final BuscadorDePalabrasRestControllerV1 controlador;
     private final MockMvc clienteHttp; // Ese cliente que has montao, pásamelo!
     public static final String PALABRA_EXISTENTE_CON_UN_SIGNIFICADO = "manzana";
     public static final String PALABRA_NO_EXISTENTE = "archilococo";
@@ -48,12 +47,10 @@ class MicroservicioBuscarPalabrasV1_SistemaTest {
     private final RepositorioSignificados miRepositorioSignificados;
 
     @Autowired
-    public MicroservicioBuscarPalabrasV1_SistemaTest(BuscadorDePalabrasRestControllerV1 controlador,
-                                                     MockMvc clienteHttp,
+    public MicroservicioBuscarPalabrasV1_SistemaTest(MockMvc clienteHttp,
                                                      RepositorioIdiomas miRepositorio,
                                                      RepositorioPalabras miRepositorioPalabras,
                                                      RepositorioSignificados miRepositorioSignificados){
-        this.controlador = controlador;
         this.clienteHttp = clienteHttp;
         this.miRepositorio = miRepositorio;
         this.miRepositorioPalabras = miRepositorioPalabras;
@@ -94,9 +91,9 @@ class MicroservicioBuscarPalabrasV1_SistemaTest {
         cuerpoPeticion.put("palabra",PALABRA_EXISTENTE_CON_UN_SIGNIFICADO);
 
         ResultActions resultado = clienteHttp.perform(
-                    MockMvcRequestBuilders.get("/api/v1/buscarPalabra2")
-                                          .contentType(MediaType.APPLICATION_JSON)
-                                          .content(cuerpoPeticion.toString())
+                MockMvcRequestBuilders.get("/api/v1/buscarPalabra2")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(cuerpoPeticion.toString())
         );
 
         resultado.andExpect(status().isOk());
@@ -104,8 +101,38 @@ class MicroservicioBuscarPalabrasV1_SistemaTest {
         //JSONObject resultadoJson = new JSONObject(resultado.andReturn().getResponse().getContentAsString());
         resultado.andExpect(jsonPath("$.[0]").value(SIGNIFICADO_PALABRA_CON_UN_SIGNIFICADO));
         // https://jsonpath.com/
-
     }
 
+    @Test
+    @DisplayName("Buscar palabra no existente en un idioma existente")
+    void test2() throws Exception {
+
+        JSONObject cuerpoPeticion = new JSONObject();
+        cuerpoPeticion.put("idioma",IDIOMA_EXISTENTE);
+        cuerpoPeticion.put("palabra",PALABRA_NO_EXISTENTE);
+
+        ResultActions resultado = clienteHttp.perform(
+                MockMvcRequestBuilders.get("/api/v1/buscarPalabra2")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(cuerpoPeticion.toString())
+        );
+
+        resultado.andExpect(status().isNotFound());
+    }
+
+    @Test
+    @DisplayName("Buscar palabra existente en un idioma no existente")
+    void test3() throws Exception {
+        JSONObject cuerpoPeticion = new JSONObject();
+        cuerpoPeticion.put("idioma",IDIOMA_NO_EXISTENTE);
+        cuerpoPeticion.put("palabra",PALABRA_EXISTENTE_CON_UN_SIGNIFICADO);
+
+        ResultActions resultado = clienteHttp.perform(
+                MockMvcRequestBuilders.get("/api/v1/buscarPalabra2")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(cuerpoPeticion.toString())
+        );
+        resultado.andExpect(status().isNotFound());
+    }
 
 }

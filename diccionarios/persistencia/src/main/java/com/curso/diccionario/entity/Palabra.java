@@ -26,6 +26,6 @@ public class Palabra {
     @ManyToOne
     private Idioma idioma;
 
-    @OneToMany(mappedBy = "palabra")
+    @OneToMany(mappedBy = "palabra", fetch = FetchType.EAGER)
     private List<Significado> significados;
 }
